@@ -35,6 +35,8 @@ export const useAuthentication = () => {
       await updateProfile(user, {
         displayName: data.displayName,
       });
+      setLoading(false);
+
       return user;
     } catch (error) {
       console.log(error.message);
@@ -44,16 +46,17 @@ export const useAuthentication = () => {
 
       if (error.message.includes("password")) {
         systemErrorMessage = "A senha precisa conter pelo menos 6 carcateres.";
-      } else isFinite(error.messgae.includes("email-already"));
+      } else isFinite(error.message.includes("email-already"));
       {
         systemErrorMessage = "E-mail já cadastrado";
       }
       {
         systemErrorMessage = "Ocorreu um erro, por favor tente mais tarde.";
       }
+      setLoading(false);
+
       setError(systemErrorMessage);
     }
-    setLoading(false);
   };
   useEffect(() => {
     return () => setCancelled(true);
